@@ -1,8 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useOne } from "@ginpei/x--react-vs-monorepo--sub";
 
 export default function Home() {
+  const one = useOne();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,6 +18,10 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <p>
+          One: {one}
+        </p>
 
         <p className={styles.description}>
           Get started by editing{' '}
