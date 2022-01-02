@@ -1,10 +1,12 @@
 # react-vs-monorepo
 
-The `sub/` packages has React as a peer dep.
+The `sub/` packages has React as a peer dep. Apps use it over npm-link.
 
-Apps `app-cra/` and `app-next/` use it over npm-link. `app-cra/` works, but `app-next/` throws an error.
+To set up, run `npm ci` and `npm link ../sub/` in each app directory.
 
-## Set up
+## Create React App
+
+Works.
 
 ```console
 $ cd app-cra
@@ -13,14 +15,16 @@ $ npm link ../sub/
 $ npm run start
 ```
 
+## Next.js
+
+Error.
+
 ```console
 $ cd app-next
 $ npm ci
 $ npm link ../sub/
 $ npm run dev
 ```
-
-## Next.js
 
 ![](./docs/module-not-found-cant-resolve-react.png)
 
@@ -40,3 +44,17 @@ $ npm run dev
 > ./pages/index.js
 > 
 > https://nextjs.org/docs/messages/module-not-found
+
+## Vite
+
+Error.
+
+
+```console
+$ cd app-vite
+$ npm ci
+$ npm link ../sub/
+$ npm run dev
+```
+
+> Uncaught SyntaxError: The requested module '/…/react-vs-monorepo/sub/index.js' does not provide an export named 'useOne'
