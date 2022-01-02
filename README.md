@@ -56,9 +56,9 @@ $ npm link ../sub/
 $ npm run dev
 ```
 
-Make sure you imported `*.ejs` that uses `export xxx` instead of `module.exports = xxx`.
+Make sure you imported ES module version `*.mjs` that uses `export xxx` instead of `module.exports = xxx`.
 
 ```diff
 - import { useOne } from "@ginpei/x--react-vs-monorepo--sub";
-+ import { useOne } from "@ginpei/x--react-vs-monorepo--sub/index.ejs";
++ import { useOne } from "@ginpei/x--react-vs-monorepo--sub/index.mjs";
 ```
