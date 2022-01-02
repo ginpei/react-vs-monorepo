@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import { useOne } from "@ginpei/x--react-vs-monorepo--sub";
+import { useOne } from "@ginpei/x--react-vs-monorepo--sub/index.ejs";
 
 function App() {
   const [count, setCount] = useState(0)

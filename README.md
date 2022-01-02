@@ -47,8 +47,7 @@ $ npm run dev
 
 ## Vite
 
-Error.
-
+Works.
 
 ```console
 $ cd app-vite
@@ -57,4 +56,9 @@ $ npm link ../sub/
 $ npm run dev
 ```
 
-> Uncaught SyntaxError: The requested module '/…/react-vs-monorepo/sub/index.js' does not provide an export named 'useOne'
+Make sure you imported `*.ejs` that uses `export xxx` instead of `module.exports = xxx`.
+
+```diff
+- import { useOne } from "@ginpei/x--react-vs-monorepo--sub";
++ import { useOne } from "@ginpei/x--react-vs-monorepo--sub/index.ejs";
+```
