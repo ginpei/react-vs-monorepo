@@ -6,7 +6,7 @@ To set up, run `npm ci` and `npm link ../sub/` in each app directory.
 
 ## Create React App
 
-Works.
+Error.
 
 ```console
 $ cd app-cra
@@ -14,6 +14,26 @@ $ npm ci
 $ npm link ../sub/
 $ npm run start
 ```
+
+```
+Uncaught Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+    at resolveDispatcher (react.development.js:1476)
+    at useState (react.development.js:1507)
+    at useOne (index.mjs:4)
+    at App (App.js:6)
+    at renderWithHooks (react-dom.development.js:14985)
+    at mountIndeterminateComponent (react-dom.development.js:17811)
+    at beginWork (react-dom.development.js:19049)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:3945)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:3994)
+    at invokeGuardedCallback (react-dom.development.js:4056)
+```
+
+If you removed `react` from `devDependencies`, it works.
 
 ## Next.js
 
@@ -25,6 +45,18 @@ $ npm ci
 $ npm link ../sub/
 $ npm run dev
 ```
+
+```
+Unhandled Runtime Error
+
+Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+```
+
+If you removed `react` from `devDependencies`, it throws another error.
 
 ![](./docs/module-not-found-cant-resolve-react.png)
 
