@@ -2,6 +2,12 @@
 
 Quickly: run `npm link ../app/node_modules/react` to refer the same React.
 
+From the official doc:
+
+- [Invalid Hook Call Warning – React](https://reactjs.org/warnings/invalid-hook-call-warning.html)
+
+> Assuming `myapp` and `mylib` are sibling folders, one possible fix is to run `npm link ../myapp/node_modules/react` from `mylib`.
+
 ## Problem
 
 The `sub/` packages has React as a dep or a dev dep. The apps use the sub package as "../sub" probably or whatever:
