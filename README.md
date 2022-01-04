@@ -1,6 +1,6 @@
 # react-vs-monorepo
 
-Quickly: run `npm link ../app/node_modules/react` to refer the same React.
+Quickly: to fix "Invalid hook call" error, run `npm link ../app/node_modules/react` to refer the same React.
 
 From the official doc:
 
@@ -18,7 +18,7 @@ The `sub/` packages has React as a dep or a dev dep. The apps use the sub packag
 …
 ```
 
-You will see the following error.
+You will see the following error:
 
 ```
 Uncaught Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
@@ -28,7 +28,7 @@ Uncaught Error: Invalid hook call. Hooks can only be called inside of the body o
 See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
 ```
 
-This is because the sub package refers `sub/node_modules/react` while the app does `app-xxx/node_modules/react`. (In other word, it works if the sub package uses ONLY as peer dep.)
+This is because the sub package refers `sub/node_modules/react` while the app does `app-xxx/node_modules/react`. (In other word, it works if the sub package uses ONLY as peer dep. But how do you test then?)
 
 ## Solution
 
@@ -97,7 +97,7 @@ $ npm ci
 $ npm run dev
 ```
 
-Make sure you imported ES module version `*.mjs` that uses `export xxx` instead of `module.exports = xxx`.
+Make sure you imported ES module version `*.mjs` that uses `export xxx` instead of `module.exports.xxx = xxx`.
 
 ```diff
 - import { useOne } from "@ginpei/x--react-vs-monorepo--sub";
