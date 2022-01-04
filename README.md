@@ -1,19 +1,18 @@
 # react-vs-monorepo
 
-The `sub/` packages has React as a peer dep. Apps use it over npm-link.
+Quickly: run `npm link ../app/node_modules/react` to refer the same React.
 
-To set up, run `npm ci` and `npm link ../sub/` in each app directory.
+## Problem
 
-## Create React App
+The `sub/` packages has React as a dep or a dev dep. The apps use the sub package as "../sub" probably or whatever:
 
-Error.
-
-```console
-$ cd app-cra
-$ npm ci
-$ npm link ../sub/
-$ npm run start
+```json
+  "dependencies": {
+    "@ginpei/x--react-vs-monorepo--sub": "../sub",
+…
 ```
+
+You will see the following error.
 
 ```
 Uncaught Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
@@ -21,70 +20,74 @@ Uncaught Error: Invalid hook call. Hooks can only be called inside of the body o
 2. You might be breaking the Rules of Hooks
 3. You might have more than one copy of React in the same app
 See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
-    at resolveDispatcher (react.development.js:1476)
-    at useState (react.development.js:1507)
-    at useOne (index.mjs:4)
-    at App (App.js:6)
-    at renderWithHooks (react-dom.development.js:14985)
-    at mountIndeterminateComponent (react-dom.development.js:17811)
-    at beginWork (react-dom.development.js:19049)
-    at HTMLUnknownElement.callCallback (react-dom.development.js:3945)
-    at Object.invokeGuardedCallbackDev (react-dom.development.js:3994)
-    at invokeGuardedCallback (react-dom.development.js:4056)
 ```
 
-If you removed `react` from `devDependencies`, it works.
+This is because the sub package refers `sub/node_modules/react` while the app does `app-xxx/node_modules/react`. (In other word, it works if the sub package uses ONLY as peer dep.)
 
-## Next.js
+## Solution
 
-Error.
+You need 3 steps to the apps work:
+
+1. Install the app and the sub package
+2. Link to the app's React
+3. Run the app
+
+First, you need normal setup for the app and the sub package.
 
 ```console
-$ cd app-next
+$ cd app-cra/
 $ npm ci
-$ npm link ../sub/
+$ cd ../sub/
+$ npm ci
+```
+
+Then link to the app's React. (This is the trick!)
+
+```console
+$ npm link ../app-cra/node_modules/react/
+```
+
+Now get back to the app, and run.
+
+```console
+$ cd ../app-cra/
 $ npm run dev
 ```
 
+`npm link` creates a link from `sub/node_modules/react` to `app-cra/node_modules/react/` so that both packages refers the same React resources.
+
+## Create React App
+
+```console
+$ cd app-cra/
+$ npm ci
+$ cd sub/
+$ npm ci
+$ npm link ../app-cra/node_modules/react/
+$ cd ../app-cra/
+$ npm run start
 ```
-Unhandled Runtime Error
 
-Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
-1. You might have mismatching versions of React and the renderer (such as React DOM)
-2. You might be breaking the Rules of Hooks
-3. You might have more than one copy of React in the same app
-See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+## Next.js
+
+
+```console
+$ cd app-next/
+$ npm ci
+$ cd ../sub/
+$ npm ci
+$ npm link ../app-next/node_modules/react/
+$ cd ../app-next/
+$ npm run dev
 ```
-
-If you removed `react` from `devDependencies`, it throws another error.
-
-![](./docs/module-not-found-cant-resolve-react.png)
-
-> Failed to compile
-> 
-> ../sub/index.js:1:0  
-> Module not found: Can't resolve 'react'
-> 
-> ```
-> > 1 | const React = require('react');
->   2 | 
->   3 | module.exports.useOne = function() {
->   4 |   const [one] = React.useState(1);
-> ```
-> 
-> Import trace for requested module:
-> ./pages/index.js
-> 
-> https://nextjs.org/docs/messages/module-not-found
 
 ## Vite
 
-Works.
+Works without link.
 
 ```console
 $ cd app-vite
 $ npm ci
-$ npm link ../sub/
 $ npm run dev
 ```
 
